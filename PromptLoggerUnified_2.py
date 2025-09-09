@@ -99,7 +99,6 @@ class PromptLoggerUnified:
                 "sampler": (comfy.samplers.KSampler.SAMPLERS, {"default": "euler"}),
                 "scheduler": (comfy.samplers.KSampler.SCHEDULERS, {"default": "normal"}),
 
-
                 "steps": ("INT", {"default": 20}),
                 "cfg": ("FLOAT", {"default": 7.5}),
                 "seed": ("INT", {"default": 2025}),
@@ -142,13 +141,28 @@ class PromptLoggerUnified:
             "filename": os.path.basename(image_filename),
             "timestamp": now.isoformat(),
             "prompt": prompt,
+            "folder": folder,
+            "base_name": base_name,
+            "sampler": sampler,
+            "scheduler": scheduler,
+            "steps": steps,
+            "cfg": cfg,
+            "seed": seed,
+            "control_after_generate": control_after_generate,
+            "denoise": denoise,
+            "use_timestamp": use_timestamp,
+            "timestamp_format": timestamp_format,
             "ksampler": {
                 "sampler": sampler,
                 "scheduler": scheduler,
                 "steps": steps,
                 "cfg": cfg,
                 "seed": seed
-            }
+            },
+            "model": model_metadata if model else None,
+            "checkpoint_name": checkpoint_name if checkpoint_name else None,
+            "lora_info": lora_list if lora_info else None,
+            "vae_name": vae_name if vae_name else None
         }
 
         # Add model information if available
@@ -180,7 +194,6 @@ class PromptLoggerUnified:
 
         print(f"[PromptLoggerUnified] Saved image path: {image_filename}")
         print(f"[PromptLoggerUnified] Logged metadata to: {json_filename}")
-
         return (prompt, image_filename, sampler, scheduler, steps, cfg, seed, denoise, control_after_generate)
 
 NODE_CLASS_MAPPINGS = {"PromptLoggerUnified": PromptLoggerUnified}
